@@ -27,8 +27,16 @@ import java.util.jar.Manifest;
 public class FileLoggerAgent {
 
     public static void premain(String args, Instrumentation instrumentation) {
-        // Accept an optional absolute path as the agent argument
-        String logFile = (args != null && !args.isBlank()) ? args.trim() : "/tmp/files.txt";
+        // Resolve log file path: env var > agent argument > default
+        String envFile = System.getenv("FILE_LOGGER_JAVAAGENT_FILENAME");
+        String logFile;
+        if (envFile != null && !envFile.isBlank()) {
+            logFile = envFile.trim();
+        } else if (args != null && !args.isBlank()) {
+            logFile = args.trim();
+        } else {
+            logFile = "/tmp/files.txt";
+        }
 
         // Prefix the filename with the PID: /mypath/override.txt -> /mypath/<PID>-override.txt
         long pid = ProcessHandle.current().pid();

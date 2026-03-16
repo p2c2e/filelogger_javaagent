@@ -66,12 +66,16 @@ This ensures multiple JVM instances do not overwrite each other's logs.
 |---|---|---|
 | `FILE_LOGGER_JAVAAGENT_ENABLED` | `true` | Set to `false` to disable all logging. Any other value (or unset) keeps logging enabled. |
 | `FILE_LOGGER_JAVAAGENT_COOLDOWN_MS` | `5000` | Deduplication window in milliseconds. Repeated identical operation + status + path entries within this window are suppressed. Set to `0` to log every access. |
+| `FILE_LOGGER_JAVAAGENT_FILENAME` | _(unset)_ | Override the log file path. Takes precedence over the agent argument. The PID prefix is still applied automatically. |
+
+Priority for log file path resolution: `FILE_LOGGER_JAVAAGENT_FILENAME` env var > agent argument > default (`/tmp/files.txt`).
 
 Example:
 
 ```bash
 FILE_LOGGER_JAVAAGENT_ENABLED=true \
 FILE_LOGGER_JAVAAGENT_COOLDOWN_MS=2000 \
+FILE_LOGGER_JAVAAGENT_FILENAME=/var/log/app-files.txt \
   java -javaagent:target/file-logger-javaagent-1.0.0.jar -jar your-app.jar
 ```
 

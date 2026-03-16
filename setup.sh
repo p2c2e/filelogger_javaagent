@@ -5,7 +5,6 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-AGENT_JAR="${SCRIPT_DIR}/target/file-logger-javaagent-1.0.0.jar"
 DEMO_SRC="${SCRIPT_DIR}/demo/SampleApp.java"
 DEMO_OUT="${SCRIPT_DIR}/demo"
 LOG_FILE="${1:-/tmp/files.txt}"
@@ -18,6 +17,11 @@ echo ""
 # --- Step 1: Build the agent ---
 echo "[1/4] Building agent JAR with Maven..."
 mvn -f "${SCRIPT_DIR}/pom.xml" clean package -q
+AGENT_JAR=$(ls "${SCRIPT_DIR}"/target/file-logger-javaagent-*.jar 2>/dev/null | head -1)
+if [ -z "${AGENT_JAR}" ]; then
+    echo "ERROR: No agent JAR found in ${SCRIPT_DIR}/target/" >&2
+    exit 1
+fi
 echo "      Built: ${AGENT_JAR}"
 
 # --- Step 2: Compile the demo ---
