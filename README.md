@@ -53,9 +53,12 @@ To specify a custom log file path, pass it as the agent argument (separated by `
 java -javaagent:/path/to/file-logger-javaagent-1.0.0.jar=/var/log/my-app-files.txt -jar your-app.jar
 ```
 
-The log file path is automatically prefixed with the JVM process ID (e.g., `/var/log/12345-my-app-files.txt`).
+The filename is automatically prefixed with the JVM process ID. For example:
 
-Default log file: `/tmp/files.txt` (becomes `/tmp/<PID>-files.txt`).
+- Default (no argument): log file becomes `/tmp/<PID>-files.txt`
+- Custom path `/var/log/my-app-files.txt`: becomes `/var/log/<PID>-my-app-files.txt`
+
+This ensures multiple JVM instances do not overwrite each other's logs.
 
 ## Environment Variables
 
