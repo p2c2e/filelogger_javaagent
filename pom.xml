@@ -10,6 +10,14 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
+    <distributionManagement>
+      <repository>
+        <id>github</id>
+        <name>GitHub Packages</name>
+        <url>https://maven.pkg.github.com/p2c2e/filelogger_javaagent</url>
+      </repository>
+    </distributionManagement>
+
     <name>File Logger Java Agent</name>
     <description>Java agent that intercepts file I/O and directory listing operations and logs them to /tmp/files.txt</description>
 
